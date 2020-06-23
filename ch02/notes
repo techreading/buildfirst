@@ -1,0 +1,42 @@
+Chapter 2:
+- Grunt— configuration-driven build tool that helps set up complex tasks easily—if you know what you’re doing. Using Grunt, you’ll compose workflows, such as those I described in chapter 1, which could be tuned for development productivity or optimized for releases. Similarly, Grunt helps with deployment procedures, which you’ll analyze in chapter 4.
+    - task runner that helps you execute commands, run JavaScript code, and configure different tasks with the configuration written entirely in JavaScript. 
+        - Tasks perform an action.
+        - Targets help define a context for those tasks.
+        - Task configuration allows you to determine options for a particular task-target combination.
+    - Grunt plugins are usually distributed as npm modules, which are pieces of JavaScript code someone published so you can use them. 
+￼
+￼
+- Creating a Gruntfile.js
+    - Grunt uses this file to load any tasks that are available and configure them with any parameters you need. The following code shows the bare minimum Gruntfile.js module:
+- module.exports = function (grunt) {
+-   grunt.registerTask('default', []); // register a default task alias
+- };
+- Grunt files are Node modules that subscribe to the CommonJS Modules spec,[5] so the code you write in each file isn’t immediately accessible to others. 
+    - The local module object is the implicit object, rather than a global object like window in the browser. When you import other modules, all you get is the public interface exposed in module.exports.
+- The last piece of the puzzle for executing a task is invoking grunt from the command line. In this case, grunt less in your terminal should do the trick. Explicitly declaring a target is usually recommended. In this case, you could do that by typing grunt less:compile. If you don’t provide a target name, all targets get executed.
+    - Running the less:compile build target in Grunt will now compile layout.less into compiled.css. You could also declare an array of input files, rather than using only one. This will result in a bundled file, which will contain the CSS for all of the LESS input files
+
+- Globbing is a file path matching mechanism that will help you include or exclude files using file path patterns. It’s particularly useful because you don’t have to maintain a list of all the files in your assets folder, which helps you avoid common mistakes such as forgetting to add a new style sheet to the list.
+[
+ 'public/*.less',
+ 'public/**/*.less',
+ '!public/vendor/**/*.less'
+]
+Note the following about the previous code:
+* The first pattern will match any file with a LESS extension in the public folder.
+* The second pattern does much the same, except that it matches files that might be in subfolders of public of any nesting level thanks to the special ** pattern.
+* As you might’ve guessed, the last pattern works the same way as the second one does, except that the ! at the beginning indicates that matched files should be excluded from the results.
+- Task alias 
+    - Group of any number of tasks that are often executed as part of the same step and that are related to each other. Tasks in an alias should preferably depend on each other to produce a more meaningful output, as this would make them easier to follow and more semantic. Task aliases are also great for declaring workflows.
+￼
+- Two-Way Schema Changes
+    - automated set of tasks should gracefully handle migrations in both directions: upgrade and rollback. If you build them carefully enough, you can even integrate them into an automated process
+￼
+- Chapter 2 Summary:
+* A build process should facilitate everything that’s needed to produce a fully configured environment that’s ready and can do its job.
+* The different tasks in a build are clearly separated, and similar tasks are grouped together under task targets.
+* Primary tasks that comprise a build include static asset compilation and optimization, linting, and running unit tests.
+* You’ve learned how to write your own build tasks and studied how to approach the automated database schema updates.
+Armed with the knowledge you’ve garnered, we’ll switch gears in the two upcoming chapters and expand your understanding of how to target different environments, namely local development and release servers, and you’ll learn best practices that you can apply to maximize productivity and performance.
+
